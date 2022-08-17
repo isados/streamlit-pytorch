@@ -1,4 +1,3 @@
-from random import sample
 from model import predict
 import streamlit as st
 
@@ -9,6 +8,7 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 import torchvision.transforms.functional as F
+from utils import images
 
 CLASSES = [
     "T-shirt/top",
@@ -25,13 +25,8 @@ CLASSES = [
 
 @st.cache(allow_output_mutation=True)
 def get_dataset():
-    dataset = datasets.FashionMNIST(
-        root='../main_intro_pytorch/data',
-        train=False,
-        download=True,
-        transform=ToTensor(),
-    )
-    return Subset(dataset, range(5))
+    _, ds = images.load_dataset()
+    return ds
         
 def display_images():
     plt.rcParams["savefig.bbox"] = 'tight'
