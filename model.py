@@ -7,6 +7,8 @@ from torch.utils.data import DataLoader
 from torch import nn
 
 
+model_path = './models/model_flatten_li784x512_relu_(li512x512_relu)x2_li512x10_lr0.01.pth'
+
 # Build the Model with 
 class NN(nn.Module):
     def __init__(self):
@@ -43,8 +45,8 @@ classes = [
 ]
 
 def predict(X, y=None):
+    global model_path
     model = NN()
-    model_path = '../main_intro_pytorch/model_flatten_li784x512_relu_(li512x512_relu)x2_li512x10_lr0.01.pth'
 
     if not os.path.exists(model_path):
         return 'Opps! No model found :('
@@ -60,6 +62,24 @@ def predict(X, y=None):
         loss = loss_func(pred, y).item()
         return pred_label, loss
     return pred_label
+
+@st.cache(allow_output_mutation=True)
+def worst_classified(dataset):
+    dl = DataLoader(dataset, batch_size=64)
+    global model_path
+    model = NN()
+
+    if not os.path.exists(model_path):
+        return 'Opps! No model found :('
+
+    model.load_state_dict(torch.load(model_path))
+    model.eval()
+    # classifications = 
+    for X, y in dl:
+        pred = model(X)
+
+
+
     
 
 
