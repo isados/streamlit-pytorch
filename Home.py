@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 import torchvision.transforms.functional as F
-from utils import images
+from utils import images, worst
 
 CLASSES = [
     "T-shirt/top",
@@ -24,8 +24,8 @@ CLASSES = [
 ]
 
 @st.cache(allow_output_mutation=True)
-def get_dataset():
-    _, ds = images.load_dataset()
+def get_dataset(**kwargs):
+    _, ds = images.load_dataset(**kwargs)
     return ds
         
 def display_images():
@@ -73,3 +73,5 @@ st.write(f'Predicted: {CLASSES[pred]} {pred_is_correct}')
 st.write(f'Loss: {loss}')
 
 st.write("Now we'll look at some images that proved to be too difficult for our model to classify")
+
+st.pyplot(worst.display_images(get_dataset(sample=False)))

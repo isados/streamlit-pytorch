@@ -10,7 +10,7 @@ from torchvision.transforms import ToTensor
 sample_images_path = 'data/sample_images.pt'
 full_set_images_path = 'data/whole_dataset.pt'
 
-def save_dataset(size:Optional[int]=5):
+def save_dataset(*, sample=True):
     """By default saves sample dataset with the first five images"""
     dataset = datasets.FashionMNIST(
         root='../main_intro_pytorch/data',
@@ -18,10 +18,12 @@ def save_dataset(size:Optional[int]=5):
         download=True,
         transform=ToTensor(),
     )
-    torch.save(Subset(dataset, range(size)), sample_images_path)
+    if sample:
+        torch.save(Subset(dataset, range(5)), sample_images_path)
+        return 
     torch.save(dataset, full_set_images_path)
 
-def load_dataset(sample=True):
+def load_dataset(*, sample=True):
     classes = [
         "T-shirt/top",
         "Trouser",
@@ -39,5 +41,5 @@ def load_dataset(sample=True):
     return classes, torch.load(full_set_images_path)
 
 if __name__ == "__main__":
-    # save_dataset()
+    save_dataset(sample=False)
     classes, ds = load_dataset()

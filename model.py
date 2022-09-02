@@ -63,22 +63,10 @@ def predict(X, y=None):
         return pred_label, loss
     return pred_label
 
-@st.cache(allow_output_mutation=True)
-def worst_classified(dataset):
-    dl = DataLoader(dataset, batch_size=64)
-    global model_path
+def get_model():
     model = NN()
-
-    if not os.path.exists(model_path):
-        return 'Opps! No model found :('
-
     model.load_state_dict(torch.load(model_path))
-    model.eval()
-    # classifications = 
-    for X, y in dl:
-        pred = model(X)
-
-
+    return model
 
     
 
