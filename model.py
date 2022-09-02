@@ -54,14 +54,12 @@ def predict(X, y=None):
 
     loss_func = nn.CrossEntropyLoss()
     pred = model(X)
-    result = f'Predicted: {classes[pred.argmax(1).item()]}'
-    st.write(pred.detach())
-    st.write(y)
+    pred_label = pred.argmax(1).item()
     if y:
         y = (torch.tensor([y]))
         loss = loss_func(pred, y).item()
-        result = f'Actual: {classes[y]}\n{result}\nLoss: {loss}'
-    return result
+        return pred_label, loss
+    return pred_label
     
 
 
