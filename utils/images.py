@@ -6,12 +6,14 @@ import torch
 from torch.utils.data import Subset
 from torchvision import datasets
 from torchvision.transforms import ToTensor
+from model import classes
 
 sample_images_path = 'data/sample_images.pt'
 full_set_images_path = 'data/whole_dataset.pt'
 
 def save_dataset(*, sample=True):
     """By default saves sample dataset with the first five images"""
+    SAMPLE_SZ = 5
     dataset = datasets.FashionMNIST(
         root='../main_intro_pytorch/data',
         train=False,
@@ -19,23 +21,11 @@ def save_dataset(*, sample=True):
         transform=ToTensor(),
     )
     if sample:
-        torch.save(Subset(dataset, range(5)), sample_images_path)
+        torch.save(Subset(dataset, range(SAMPLE_SZ)), sample_images_path)
         return 
     torch.save(dataset, full_set_images_path)
 
 def load_dataset(*, sample=True):
-    classes = [
-        "T-shirt/top",
-        "Trouser",
-        "Pullover",
-        "Dress",
-        "Coat",
-        "Sandal",
-        "Shirt",
-        "Sneaker",
-        "Bag",
-        "Ankle boot",
-    ]
     if sample:
         return classes, torch.load(sample_images_path)
     return classes, torch.load(full_set_images_path)

@@ -2,22 +2,10 @@ import torch
 import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
+import streamlit as st
 import numpy as np
-from model import NN, get_model
+from model import NN, get_model, classes
 from torch import nn
-
-classes = [
-    "T-shirt/top",
-    "Trouser",
-    "Pullover",
-    "Dress",
-    "Coat",
-    "Sandal",
-    "Shirt",
-    "Sneaker",
-    "Bag",
-    "Ankle boot",
-]
 
 
 # confident in wrong answers
@@ -43,6 +31,7 @@ def get_top10_images(ds):
     incorrect_classified.sort(key=sort_by_loss, reverse=True)
     return incorrect_classified[:10]
 
+@st.cache(allow_output_mutation=True)
 def display_images(ds):
     imgs = get_top10_images(ds)
     rows,cols = 2, len(imgs)//2

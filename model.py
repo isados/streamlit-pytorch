@@ -31,7 +31,7 @@ class NN(nn.Module):
         return 'flatten_li784x512_relu_(li512x512_relu)x2_li512x10'
 
 
-classes = [
+classes = (
     "T-shirt/top",
     "Trouser",
     "Pullover",
@@ -42,7 +42,7 @@ classes = [
     "Sneaker",
     "Bag",
     "Ankle boot",
-]
+)
 
 def predict(X, y=None):
     global model_path
